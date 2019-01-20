@@ -6,15 +6,17 @@ The objective of this project is to solve a modified version of the Unity ML-Age
 control rackets and are expected to collaborate in order to keep a ball in the play.  
 
 ### Specifics of the Task
-* The state space is made of 33 observations of continuous features that exist in the range of [-1, 1].
-* The action space consists of 4 continuous actions representing the torques applied to the 2 joints.  The values for 
-each feature of the action must be within [-1, 1]. 
-* This version of the environment runs 20 agents in parallel.  
-* Agents are rewarded with a score of 0.1 for each step in which the end of the robot arm is 
-within the floating goal volume, and a score of 0.0 for each step in which the robot arm does not
-end within the floating goal volume.  
-* The environment is considered solved when all 20 agents obtain an average episode score of +30.0 over the course 
-of 100 episodes.   
+* The observable state space consists of 8 feature variables, which correspond to the positions and velocities of the 
+ball and racket.  
+* The action space consists of 2 continuous variables, which correspond to the movements toward or away from the net, 
+as well as a movement upward ("jump" motion).  
+* The state consists of a a stack of 3 feature observations, presumably to aid in the inference of ball and racket 
+trajectories [REVIEW THIS]
+* A reward of 0.1 is provided for successfully striking the ball over the net.  A reward of -0.01 is provided for 
+allowing the ball to strike the table or exit out of bounds.  
+* The task is considered solved when the agents are capable of averaging 0.5 over the course of 100 episodes.  An 
+episode score is defined as the maximum total reward recorded from the two agents.  
+
 
 ## Installation
 

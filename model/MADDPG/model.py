@@ -270,14 +270,21 @@ class Model(BaseModel):
             dst_param.data.copy_(updated_param)
 
     def checkpoint_model(self, episode_count):
+        for agent_idx, agent in enumerate(self.agents):
+            self.checkpoint_agent(agent_idx, episode_count)
+
+    def checkpoint_agent(self, agent_idx, episode_count):
         checkpoint_filename = os.path.join(
-            self.dir_util.checkpoint_dir, 'actor_ckpt_{}.pth'.format(
-                episode_count))
-        torch.save(self.actor.state_dict(), checkpoint_filename)
+            self.dir_util.checkpoint_dir, '{}_actor_ckpt_{}.pth'.format(
+                agent_idx, episode_count))
+
+        torch.save(
+            self.agents[agent_idx].actor.state_dict(), checkpoint_filename)
         checkpoint_filename = os.path.join(
-            self.dir_util.checkpoint_dir, 'critic_ckpt_{}.pth'.format(
-                episode_count))
-        torch.save(self.critic.state_dict(), checkpoint_filename)
+            self.dir_util.checkpoint_dir, '{}_critic_ckpt_{}.pth'.format(
+                agent_idx, episode_count))
+        torch.save(
+            self.agents[agent_idx].critic.state_dict(), checkpoint_filename)
 
     def epsilon(self, episode):
         if self.model_config['mode'] == 'eval':

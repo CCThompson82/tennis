@@ -35,6 +35,7 @@ if __name__ == '__main__':
     print(env_config)
 
     client = ModelClient(env_config=env_config)
+    raise ValueError()
 
     # # build buffer with by running episodes
     # pbar = tqdm(total=client.model.hyperparams['max_episodes']*1001)

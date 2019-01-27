@@ -24,11 +24,11 @@ class Network(nn.Module):
         fc2_units = params['network']['fc2']
         action_size = nb_actions
 
-        self.bn0 = nn.BatchNorm1d(state_size)
+        # self.bn0 = nn.BatchNorm1d(state_size)
         self.fc1 = nn.Linear(state_size, fc1_units)
-        self.bn1 = nn.BatchNorm1d(fc1_units)
+        # self.bn1 = nn.BatchNorm1d(fc1_units)
         self.fc2 = nn.Linear(fc1_units, fc2_units)
-        self.bn2 = nn.BatchNorm1d(fc2_units)
+        # self.bn2 = nn.BatchNorm1d(fc2_units)
         self.fc3 = nn.Linear(fc2_units, action_size)
         self.reset_parameters()
 
@@ -37,9 +37,16 @@ class Network(nn.Module):
         self.fc2.weight.data.uniform_(*hidden_init(self.fc2))
         self.fc3.weight.data.uniform_(-3e-3, 3e-3)
 
+    # def forward(self, state):
+    #     """Build an actor (policy) network that maps states -> actions."""
+    #     x = self.bn0(state.to(self.device))
+    #     x = F.relu(self.bn1(self.fc1(x)))
+    #     x = F.relu(self.bn2(self.fc2(x)))
+    #     return torch.tanh(self.fc3(x))
+
     def forward(self, state):
         """Build an actor (policy) network that maps states -> actions."""
-        x = self.bn0(state.to(self.device))
-        x = F.relu(self.bn1(self.fc1(x)))
-        x = F.relu(self.bn2(self.fc2(x)))
+        x = state.to(self.device)
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
         return torch.tanh(self.fc3(x))

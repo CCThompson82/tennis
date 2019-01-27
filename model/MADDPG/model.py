@@ -123,11 +123,18 @@ class Model(BaseModel):
                                 self.mean_episode_score))])
 
     def get_next_actions(self, states, episode):
-        state_tensor = torch.from_numpy(states).float().to(self.actor.device)
-        self.actor.eval()
-        with torch.no_grad():
-            actions = self.actor.forward(state_tensor).cpu().data.numpy()
-        self.actor.train()
+
+        actions = np.zeros([2, 2])
+        for agent_idx, perspective_states in enumerate(states):
+            state_tensor = torch.from_numpy(perspective_states).float().to(
+                self.agents[agent_idx].actor.device)
+
+            self.agents[agent_idx].actor.eval()
+            with torch.no_grad():
+                _actions = self.agents[agent_idx].actor.forward(
+                    state_tensor).cpu().data.numpy()
+            self.agents[agent_idx].actor.train()
+            actions[agent_idx, :] = _actions
 
         # TODO: If mode is eval, epsilon is set to zero automatically and this
         #  conditional is never triggered to add noise

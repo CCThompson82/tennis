@@ -187,42 +187,45 @@ class Model(BaseModel):
         rewards_tensor = torch.from_numpy(rewards).float()
         dones_tensor = torch.from_numpy(dones).float()
 
-        # train the critic
-        future_return = self.critic_target.forward(
-            next_states_tensor, self.actor_target.forward(
-                next_states_tensor))
-        Q_target = rewards_tensor + (
-                self.hyperparams['gamma'] * future_return.cpu() *
-                (1-dones_tensor))
+        for agent in self.agents:
 
-        self.critic.train()
-        Q_expected = self.critic.forward(states_tensor, actions_tensor)
-        critic_loss = fn.mse_loss(Q_expected, Q_target.to(self.critic.device))
 
-        self.critic_optimizer.zero_grad()
-        critic_loss.backward()
-        if self.hyperparams['clip_gradient']:
-            nn.utils.clip_grad_norm_(self.critic.parameters(), 1)
-        self.critic_optimizer.step()
+            # train the critic
+            future_return = agent.critic_target.forward(
+                next_states_tensor, agent.actor_target.forward(
+                    next_states_tensor))
+            Q_target = rewards_tensor + (
+                    self.hyperparams['gamma'] * future_return.cpu() *
+                    (1-dones_tensor))
 
-        # train the actor
-        # actions_pred = self.actor.forward(states_tensor)
-        actions_pred = self.actor.forward(states_tensor)
-        self.critic.eval()
-        actor_loss = -self.critic.forward(states_tensor, actions_pred).mean()
-        self.actor_optimizer.zero_grad()
-        actor_loss.backward()
-        self.actor_optimizer.step()
-        self.critic.train()
+            agent.critic.train()
+            Q_expected = agent.critic.forward(states_tensor, actions_tensor)
+            critic_loss = fn.mse_loss(Q_expected, Q_target.to(agent.critic.device))
 
-        # record for progress bar
-        self.critic_loss_ = critic_loss.cpu().data.numpy()
-        self.actor_loss_ = actor_loss.cpu().detach().numpy()
+            agent.critic_optimizer.zero_grad()
+            critic_loss.backward()
+            if self.hyperparams['clip_gradient']:
+                nn.utils.clip_grad_norm_(agent.critic.parameters(), 1)
+            agent.critic_optimizer.step()
 
-        self.soft_update(src_model=self.critic, dst_model=self.critic_target,
-                         tau=self.hyperparams['tau'])
-        self.soft_update(src_model=self.actor, dst_model=self.actor_target,
-                         tau=self.hyperparams['tau'])
+            # train the actor
+            # actions_pred = self.actor.forward(states_tensor)
+            actions_pred = agent.actor.forward(states_tensor)
+            agent.critic.eval()
+            actor_loss = -agent.critic.forward(states_tensor, actions_pred).mean()
+            agent.actor_optimizer.zero_grad()
+            actor_loss.backward()
+            agent.actor_optimizer.step()
+            agent.critic.train()
+
+            # record for progress bar
+            agent.critic_loss_ = critic_loss.cpu().data.numpy()
+            agent.actor_loss_ = actor_loss.cpu().detach().numpy()
+
+            self.soft_update(src_model=agent.critic, dst_model=agent.critic_target,
+                             tau=self.hyperparams['tau'])
+            self.soft_update(src_model=agent.actor, dst_model=agent.actor_target,
+                             tau=self.hyperparams['tau'])
 
         if np.random.random() < self.hyperparams['noise_reset_epsilon']:
             self.noise.reset()

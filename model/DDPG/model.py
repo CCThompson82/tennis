@@ -19,7 +19,7 @@ class Model(BaseModel):
     def __init__(self, model_config, env_config):
         super(Model, self).__init__(model_config=model_config,
                                     env_config=env_config)
-
+        # Move this to its own module and have a list of 2 of them for MA
         self.actor = Actor(nb_features=env_config['nb_observations'],
                            nb_actions=env_config['nb_actions'],
                            params=self.params,

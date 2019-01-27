@@ -67,7 +67,6 @@ if __name__ == '__main__':
                 client.train_model()
 
             states = next_states
-            print(client.metrics)
 
         pbar.update()
         client.record_episode_scores()

@@ -108,7 +108,6 @@ class Model(BaseModel):
         #  conditional is never triggered to add noise
         if np.random.rand() <= self.epsilon(episode):
             actions += self.noise.sample()
-
         return np.clip(actions, -1, 1)
 
     def store_experience(self, states, actions, rewards, next_states,

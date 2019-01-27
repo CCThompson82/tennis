@@ -6,7 +6,7 @@
   "clip_gradient": true,
   "training_steps": 20,
   "train_frequency": 20,
-  "batch_size": 256,
+  "batch_size": 8,
   "gamma": 0.99,
   "tau": 1e-3,
   "checkpoint_freq": 20,

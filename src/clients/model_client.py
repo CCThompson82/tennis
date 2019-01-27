@@ -44,7 +44,7 @@ class ModelClient(object):
     def training_finished(self):
         return self.model.terminate_training_status(**self.metrics)
 
-    def terminate_episode(self, max_reached_statuses, local_done_statuses):
+    def episode_finished(self, max_reached_statuses, local_done_statuses):
         return self.model.terminate_episode_status(
             max_reached_statuses, local_done_statuses)
 

@@ -35,57 +35,48 @@ if __name__ == '__main__':
     print(env_config)
 
     client = ModelClient(env_config=env_config)
-    raise ValueError()
 
-    # # build buffer with by running episodes
-    # pbar = tqdm(total=client.model.hyperparams['max_episodes']*1001)
-    #
-    import numpy as np
+    # set up the progress bar
+    pbar = tqdm(total=client.model.hyperparams['max_episodes'])
 
-    while True: #client.training_finished():
+    while not client.training_finished():
         # reset for new episodes
         env_info = env.reset(train_mode=True)[brain.brain_name]
         states = env_info.vector_observations
-        print(env_info.local_done, env_info.max_reached)
-        while not np.any(np.concatenate([env_info.local_done, env_info.max_reached])): #client.terminate_episode(
 
-                #max_reached_statuses=env_info.max_reached,
-                #local_done_statuses=env_info.local_done):
+        while not client.episode_finished(
+                max_reached_statuses=env_info.max_reached,
+                local_done_statuses=env_info.local_done):
+            pbar.set_postfix(ordered_dict=client.progress_bar)
 
-    #         pbar.set_postfix(
-    #             ordered_dict=client.progress_bar)
-    #         pbar.update()
-    #
-    #         actions = client.get_next_actions(states=states)
-            actions = np.random.randn(2, 2)
-            actions = np.clip(actions, -1, 1)
+            actions = client.get_next_actions(states=states)
 
             env_info = env.step(actions)[brain.brain_name]
 
             rewards = env_info.rewards
-            print(rewards)
+
             next_states = env_info.vector_observations
 
             episode_statuses = env_info.local_done
 
-    #
-    #         client.store_experience(
-    #             states, actions, rewards, next_states, episode_statuses)
-    #         client.update_metrics(rewards=rewards)
-    #
-    #         if client.training_status():
-    #             client.train_model()
-    #
+            client.store_experience(
+                states, actions, rewards, next_states, episode_statuses)
+            client.update_metrics(rewards=rewards)
+
+            if client.training_status():
+                client.train_model()
+
             states = next_states
-            print(np.concatenate([env_info.local_done, env_info.max_reached]))
-        break
-    #     client.record_episode_scores()
-    #
-    #     if client.checkpoint_step():
-    #         client.create_checkpoint()
-    #
-    #
-    #
-    #
-    #
-    #
+            print(client.metrics)
+
+        pbar.update()
+        client.record_episode_scores()
+
+        if client.checkpoint_step():
+            client.create_checkpoint()
+
+
+
+
+
+

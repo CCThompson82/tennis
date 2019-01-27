@@ -1,0 +1,6 @@
+{
+  "model_name": "MADDPG",
+  "experiment_id": "exp_000",
+  "overwrite_experiment": true,
+  "mode": "train"
+}

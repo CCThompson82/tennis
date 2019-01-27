@@ -236,11 +236,10 @@ class Model(BaseModel):
             arr = np.load(self.dir_util.results_filename)
         except FileNotFoundError:
             return 0
-
         if len(arr) < 100:
-            return np.round(np.mean(arr[-1]), 3)
+            return np.round(np.mean(arr), 3)
 
-        return np.round(np.mean(arr[-1]), 3)
+        return np.round(np.mean(arr[-100:, :]), 3)
 
     @property
     def best_episode_score(self):

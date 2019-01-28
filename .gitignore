@@ -9,10 +9,13 @@
 *.iml
 
 # model
-model
+
 
 # data
 data
 
 # notebook
 notebook/.ipynb_checkpoints
+
+# unity logs
+unity-environment.log

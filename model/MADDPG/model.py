@@ -297,8 +297,8 @@ class Model(BaseModel):
         return np.round(epsilon, 3)
 
     def restore_checkpoint(self, ckpt_index):
-        actor_filename = os.path.join(
-            self.dir_util.checkpoint_dir, 'actor_ckpt_{}.pth'.format(
-                ckpt_index))
-        state_dict = torch.load(actor_filename)
-        self.actor.load_state_dict(state_dict)
+        for agent_idx in range(self.env_config['nb_agents']):
+            actor_filename = os.path.join(self.dir_util.checkpoint_dir, '{}_actor_ckpt_{}.pth'.format(
+                    agent_idx, ckpt_index))
+            state_dict = torch.load(actor_filename)
+            self.agents[agent_idx].actor.load_state_dict(state_dict)

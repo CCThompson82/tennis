@@ -1,5 +1,5 @@
 {
-  "max_episodes": 2500,
+  "max_episodes": 1500,
   "random_seed": 123,
   "actor_init_learning_rate": 1e-3,
   "critic_init_learning_rate": 5e-4,

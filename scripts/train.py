@@ -36,6 +36,10 @@ if __name__ == '__main__':
 
     client = ModelClient(env_config=env_config)
 
+    if client.model.dir_util.mode != 'train':
+        raise AttributeError('Cannot run the train script if the mode is'
+                             'not set to `train` in `model.json`.')
+
     # set up the progress bar
     pbar = tqdm(total=client.model.hyperparams['max_episodes'])
 

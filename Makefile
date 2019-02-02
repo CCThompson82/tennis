@@ -134,3 +134,6 @@ clean-container: ## remove Docker container
 
 clean-image: ## remove Docker image
 	-$(DOCKER) image rm $(IMAGE_NAME)
+
+mount-prodmod: ## sync local data to data source
+	cp -r /mnt/tennis/data/MADDPG/exp_002 /workdir/data/MADDPG/exp_002

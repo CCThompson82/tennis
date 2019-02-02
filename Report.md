@@ -117,7 +117,7 @@ must return the tennis ball several times on average.  The first checkpoint to s
 The highest performing model weights can be restored and evaluated by running `make mount-prodmod` 
 from inside a docker container, and then `python3 ./scripts/evaluate.py`.  The make command mounts 
 pretrained checkpoint weights from a mounted directory in the base docker image.  
-The docker image is freely available at `ccthompson/drlnd:0.0.7` and will be pulled automatically
+The docker image is freely available at `ccthompson/drlnd:0.0.8` and will be pulled automatically
 via the installation instructions in the README.
 
 
@@ -140,5 +140,11 @@ One hypothesis I'd like to test is the size of the experience buffer on training
 Generally, larger buffers provide a more stable learning experience, due to the inability of the 
 network to fixate on a particular state that continues to arrive due to an overfit action sequence.
 However, this did not appear to be the case during early experiments for this project.  
+
+Finally, I would like to experiment with utilising a single critic network for both agent actor 
+networks.  By centralising the DDPG critic network, the experiences of both agents can be 
+shared to ease training.  Meanwhile, each agent is free to choose its own actions via independent
+actor networks.  These changes may help improve the stability and speed at which the 
+entire MADDPG model trains.  
 
 

@@ -11,7 +11,7 @@ ball and racket.
 * The action space consists of 2 continuous variables, which correspond to the movements toward or away from the net, 
 as well as a movement upward ("jump" motion).  
 * The state consists of a a stack of 3 feature observations, presumably to aid in the inference of ball and racket 
-trajectories [REVIEW THIS]
+trajectories
 * A reward of 0.1 is provided for successfully striking the ball over the net.  A reward of -0.01 is provided for 
 allowing the ball to strike the table or exit out of bounds.  
 * The task is considered solved when the agents are capable of averaging 0.5 over the course of 100 episodes.  An 
@@ -22,7 +22,7 @@ episode score is defined as the maximum total reward recorded from the two agent
 
 This repository runs within the provided docker environment. The base image upon which this 
 repository's docker image is built is freely available from my DockerHub, 
-`ccthompson82/drlnd:0.0.7`.  No downloads are necessary if the instructions below are followed. 
+`ccthompson82/drlnd:0.0.8`.  No downloads are necessary if the instructions below are followed. 
 
 ### Dependencies
 * Python 2.7 or Python 3.5

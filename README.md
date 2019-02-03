@@ -52,26 +52,18 @@ login to the Docker container.  This command needs to be run only once after cre
 container hs been created with the command above, use the following command to enter the existing container: `make start-container`.
 
 # Directory Structure
-`
-├── Makefile                          <- Makefile contains many targets such as create docker container or
-│                                        get input files.
-├── config                            <- This directory contains configuration files used in scripts
-│   │                                    or Jupyter Notebook.
-│   └── jupyter_config.py
-├── data                              <- store the model data files created in the experiments.  *NOTE*: This dir will 
-|                                        be populated by running "make mount-prodmod" from inside the docker container 
-|                                        actual experiment model weights.  
-├── docker                            <- docker directory contains Dockerfile.
-│   └── Dockerfile                    <- Dockerfile have the container settings. Users modify Dockerfile
-│                                        if additional library is needed for experiments.
-├── model                             <- includes models implementations and hyperparam, param files
-├── src                               <- source files
-│   └── __init__.py
-├── notebook                          <- This directory sotres the ipynb files saved in Jupyter Notebook.
-├── requirements.txt                  <- Libraries needed to run experiments. The library listed in this file
-│                                        are installed in the Docker container.
-└── scripts                           <- Users add the script files to generate model files or run evaluation.
-`
+
+* Makefile - contains many targets such as create docker container or get input files.
+* config - contains configuration files used in scripts
+* data - store the model data files created in the experiments.  *NOTE*: This dir will be populated by running 
+    "make mount-prodmod" from inside the docker container with actual experiment model weights.  
+* docker - contains Dockerfile.
+* model - [PRIMARY CODE DIR] contains all the model implementations, as well as hyperparams and params used at training
+time.  
+* src - contains base objects and clients used for loading and utilising models
+* notebook - jupyter notebooks 
+* scripts - contains generic scripts that train or evaluate a given model named in the `config/model.json` file. 
+
 
 # Credits
 

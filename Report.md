@@ -14,6 +14,9 @@ This solution was coded in an agile process, by which minimum viable product mod
 until a full solution was achieved.  In order to aid in this process, a client model interface was 
 generated, in which new versions of models could be loaded and run via a training script and its 
 calls to a generic model API.  The process of training is observed in the file `./scripts/train.py`.
+The client API will initiate a specific model via instructions in the `config/model.json` file.  The
+specific hyperparameters and parameters used for training each model experiment are found in that 
+model experiment's directory (e.g. `model/MADDPG/exp_002/params.json`).
 
 ### Training Script
 The training script is generic and is responsible for interacting with a Model object API to perform
@@ -81,9 +84,12 @@ The code for this training can be found in the `execute_training_step` method of
 `model/MADDPG/model.Model` object.
 
 Parameters and hyperparameters were adjusted for each experiment, and can be observed by examining
-each experiments `hyperparams.json` and `params.json` file.  Run time parameters are also stored
-alongside the training results in the data directory for posterity.  
-
+each experiments `hyperparams.json` and `params.json` file (located in 
+`model/MADDPG/<exp_id>/`.  Run time parameters are also stored alongside the training results in 
+the data directory for posterity.  The most important parameter determined through minimal testing
+was the size of the buffer.  No exploitation of learning was observed during training time 
+using a buffersize of 5e+5.  However a buffer size of 10,000 experiences, resulted in clear 
+increase for the agent reward score per episode.   
 
 
 ## Results  
@@ -126,8 +132,7 @@ can navigate to the root directory of the docker image and look in the
 ## Conclusion
 In conclusion, a basic implementation of the Multi-Agent Deterministic Discrete Policy Gradient 
 algorithm, utilising small two-layer networks for actor and critic models for each agent in a 2 
-agent game was capable of 
-efficiently solving the `UnityEngine Tennis` task. 
+agent game was capable of efficiently solving the `UnityEngine Tennis` task. 
 
 ## Discussion
 

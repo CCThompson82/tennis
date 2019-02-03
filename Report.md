@@ -114,11 +114,13 @@ must return the tennis ball several times on average.  The first checkpoint to s
 `exp_002 checkpoint 640`.  The highest performing checkpoint was `exp_002: ckpt 1620`.  
 
 ### Loading the product model
-The highest performing model weights can be restored and evaluated by running `make mount-prodmod` 
-from inside a docker container, and then `python3 ./scripts/evaluate.py`.  The make command mounts 
-pretrained checkpoint weights from a mounted directory in the base docker image.  
-The docker image is freely available at `ccthompson/drlnd:0.0.8` and will be pulled automatically
-via the installation instructions in the README.
+The highest performing model weight checkpoints can be restored and evaluated by running 
+`make mount-prodmod` from inside a docker container, and then `python3 ./scripts/evaluate.py`.  
+The make command mounts pretrained checkpoint weights from a mounted directory in the base docker 
+image.  The docker image is freely available at `ccthompson/drlnd:0.0.8` and will be pulled 
+automatically via the installation instructions in the README.  To inspect particular ckpts, one
+can navigate to the root directory of the docker image and look in the 
+`/mnt/tennis/MADDPG/exp_002/checkpoints/` directory.  
 
 
 ## Conclusion

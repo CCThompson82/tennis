@@ -1,4 +1,4 @@
-FROM ccthompson82/drlnd:0.0.7
+FROM ccthompson82/drlnd:0.0.8
 
 ################################################################################
 #  Install Headless Unity Banana Navigation Environment

@@ -51,6 +51,25 @@ repository's docker image is built is freely available from my DockerHub,
 login to the Docker container.  This command needs to be run only once after creating the docker image.  After the
 container hs been created with the command above, use the following command to enter the existing container: `make start-container`.
 
+# Directory Structure
+
+├── Makefile                          <- Makefile contains many targets such as create docker container or
+│                                        get input files.
+├── config                            <- This directory contains configuration files used in scripts
+│   │                                    or Jupyter Notebook.
+│   └── jupyter_config.py
+├── data                              <- store the model data files created in the experiments.
+├── docker                            <- docker directory contains Dockerfile.
+│   └── Dockerfile                    <- Dockerfile have the container settings. Users modify Dockerfile
+│                                        if additional library is needed for experiments.
+├── model                             <- includes models implementations and hyperparam, param files
+├── src                               <- source files
+│   └── __init__.py
+├── notebook                          <- This directory sotres the ipynb files saved in Jupyter Notebook.
+├── requirements.txt                  <- Libraries needed to run experiments. The library listed in this file
+│                                        are installed in the Docker container.
+└── scripts                           <- Users add the script files to generate model files or run evaluation.
+
 # Credits
 
 This package was created with [Cookiecutter](https://github.com/audreyr/cookiecutter) and the [cookiecutter-docker-science](https://docker-science.github.io/) project template.

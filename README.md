@@ -57,9 +57,9 @@ container hs been created with the command above, use the following command to e
 │                                        get input files.
 ├── config                            <- This directory contains configuration files used in scripts
 │   │                                    or Jupyter Notebook.
-│   └── jupyter_config.py
+│   
 ├── data                              <- store the model data files created in the experiments.  *NOTE*: This dir will 
-|                                        be populated by running "make mount-prodmod" from inside the docker container 
+|                                        be populated by running `make mount-prodmod` from inside the docker container 
 |                                        actual experiment model weights.  
 ├── docker                            <- docker directory contains Dockerfile.
 │   └── Dockerfile                    <- Dockerfile have the container settings. Users modify Dockerfile

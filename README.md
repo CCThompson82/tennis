@@ -10,8 +10,8 @@ control rackets and are expected to collaborate in order to keep a ball in the p
 ball and racket.  
 * The action space consists of 2 continuous variables, which correspond to the movements toward or away from the net,
 as well as a movement upward ("jump" motion).  
-* The state consists of a a stack of 3 feature observations, presumably to aid in the inference of ball and racket
-trajectories
+* The state consists of a 24 continuous features referring the location and trajectories of relevant objects.  Each 
+agent receives its own state observation. 
 * A reward of 0.1 is provided for successfully striking the ball over the net.  A reward of -0.01 is provided for
 allowing the ball to strike the table or exit out of bounds.  
 * The task is considered solved when the agents are capable of averaging 0.5 over the course of 100 episodes.  An
@@ -58,8 +58,8 @@ container hs been created with the command above, use the following command to e
 * data - store the model data files created in the experiments.  *NOTE*: This dir will be populated by running
     "make mount-prodmod" from inside the docker container with actual experiment model weights.  
 * docker - contains Dockerfile.
-* model - [PRIMARY CODE DIR] contains all the model implementations, as well as hyperparams and params used at training
-time.  
+* **model - [PRIMARY CODE DIR] contains all the model implementations, as well as hyperparams and params used at training
+time.**  
 * src - contains base objects and clients used for loading and utilising models
 * notebook - jupyter notebooks
 * scripts - contains generic scripts that train or evaluate a given model named in the `config/model.json` file.
